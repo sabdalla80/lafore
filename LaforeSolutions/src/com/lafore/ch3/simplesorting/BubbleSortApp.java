@@ -28,22 +28,66 @@ public void display()             // displays array contents
    System.out.println("");
    }
 //--------------------------------------------------------------
+//Ex 3.1
 public void bubbleSort()
    {
-   int out, in;
+   int outR=0;    //index right
+   int outL = 0;  //index left 
+   int in;  //inner index to iterate in both directions
+   
+   //bidirectional, carry highest towards outR, once there, walk backwards and carry min to outL
+   //Advance both Left and right indices and narrow down the sort
 
-   for(out=nElems-1; out>1; out--)   // outer loop (backward)
-      for(in=0; in<out; in++)        // inner loop (forward)
+   for(outR=nElems-1; outR>1; outR--){   // outer loop (backward)
+	   
+	   //carry highest to right
+      for(in=outL; in<outR; in++) {       // inner loop (forward)
          if( a[in] > a[in+1] )       // out of order?
             swap(in, in+1);          // swap them
+      }
+      //Ok, now we are at outR, we need to walk in opp direction and carry minimum towards outL
+      //carry minimum to Left
+      for(in = outR-1; in > outL; in--){
+    	  if(a[in] < a[in-1])
+    		  swap(in, in-1);
+      }
+      outL++;
+   }
    }  // end bubbleSort()
+//------------------------------------------------------------------------------
+//Ex 3.4 OddEven Sort
+//one pass on even pairs
+//pass on Odd pairs
+
+public void OddEvenSort ()
+{
+    for (int i = 0 ; i < nElems ; i++)
+    {
+         if (i%2 !=0) // 'i' is odd
+         {
+             for (int j = 2 ; j < nElems ; j += 2)
+             {     
+                  if (a[j] < a[j-1])
+                      swap (j-1,j) ;
+             }
+          }
+          else  // 'i' is even
+          {  
+              for (int j = 1 ; j < nElems ; j += 2)
+              {
+                   if (a[j] < a[j-1])
+                       swap (j-1,j) ;
+              } 
+          }
+    }
+}
 //--------------------------------------------------------------
 private void swap(int one, int two)
-   {
-   long temp = a[one];
-   a[one] = a[two];
-   a[two] = temp;
-   }
+ {
+     long temp = a[one];
+     a[one] = a[two];
+     a[two] = temp;
+ }
 //--------------------------------------------------------------
 }  // end class ArrayBub
 ////////////////////////////////////////////////////////////////
@@ -67,8 +111,9 @@ public static void main(String[] args)
    arr.insert(33);
 
    arr.display();                // display items
-
-   arr.bubbleSort();             // bubble sort them
+   
+   arr.OddEvenSort();   //Ex 3.4  OddEvenSort
+  // arr.bubbleSort();             // bubble sort them
 
    arr.display();                // display them again
    }  // end main()
